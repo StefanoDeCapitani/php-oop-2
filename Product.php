@@ -1,5 +1,6 @@
 <?php
 
+require_once __DIR__ . "/Shipment_option.php";
 require_once __DIR__ . "/Review.php";
 
 class Product {
@@ -81,7 +82,7 @@ class Product {
 
     function set_shipment_options($new_value){
         foreach($new_value as $option){
-            $this->shipment_options[] = $option;
+            $this->shipment_options[] = new Shipment_option($option["country"], $option["price_dollars"], $option["delivery_time_days"]);
         }
     }
 
@@ -107,13 +108,13 @@ class Product {
     }
 
     function calculate_average_rating(){
-        $ratings = array_map('get_ratings_array', $this->reviews);
-        $average = array_sum($ratings) / count($ratings);   
-        $this->set_average_rating($average);
+        $ratings = array_map([$this, "get_ratings_array"], $this->reviews);
+        $average = array_sum($ratings) / count($ratings);  
+        return $average;
     }
 
     function get_ratings_array($review){
-        return $review["rating"];
+        return $review->get_rating();
     }
 
     function get_price_formatted(){
@@ -133,3 +134,7 @@ class Product {
         return null;
     }
 }
+
+$get_ratings_array = function($review){
+    return $review->get_rating();
+};

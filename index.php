@@ -1,10 +1,11 @@
 <?php 
 
 require_once "./Product_factory.php";
+require_once "./Product.php";
 
 $product_array = [
     [
-    "id" => 1,
+    "id" => 0,
     "name" => "Il libro della giungla",
     "category" => "book",
     "image" => "https://images-na.ssl-images-amazon.com/images/I/71Vthi1AUXL.jpg",
@@ -31,7 +32,7 @@ $product_array = [
                 ],
     ], 
     [
-        "id" => 2,
+        "id" => 1,
         "name" => "Spider Man",
         "category" => "movie",
         "image" => "https://image.api.playstation.com/vulcan/img/rnd/202011/0714/vuF88yWPSnDfmFJVTyNJpVwW.png",
@@ -64,9 +65,13 @@ $product_array = [
     ]
 ];
 
+$review = ["product_id" => 0, "rating" => 3, "review" => "Mi è piaciuto molto", "images" => ""];
+
 foreach($product_array as $product){
     Product_factory::create_product($product);
 }
+
+Product::get_product_by_id($review["product_id"])->add_new_review($review["rating"], $review["review"], $review["images"]);
 
 
 
