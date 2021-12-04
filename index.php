@@ -2,6 +2,7 @@
 
 require_once "./Product_factory.php";
 require_once "./Product.php";
+require_once "./Cart.php";
 
 $product_array = [
     [
@@ -73,6 +74,14 @@ foreach($product_array as $product){
 
 Product::get_product_by_id($review["product_id"])->add_new_review($review["rating"], $review["review"], $review["images"]);
 
-
+$cart = new Cart();
 
 var_dump(Product::get_product_instances());
+
+$cart->add_product_to_cart(1, 2);
+
+var_dump($cart);
+
+var_dump(Product::get_product_instances()[1]);
+
+echo $cart->get_total_price_dollars();

@@ -118,7 +118,7 @@ class Product {
     }
 
     function get_price_formatted(){
-        return;
+        return $this->price_dollars . "$";
     }
 
     static function get_product_instances(){
@@ -134,7 +134,3 @@ class Product {
         return null;
     }
 }
-
-$get_ratings_array = function($review){
-    return $review->get_rating();
-};
