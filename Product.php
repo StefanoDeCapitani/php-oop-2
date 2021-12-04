@@ -9,12 +9,15 @@ class Product {
     protected $image;
     protected $available_quantity;
     protected $price_dollars;
+    protected $shipment_options = [];
     protected $average_rating = 0;
     protected $reviews;
 
     static $count;
+    static $instances_array;
+    
 
-    function __construct($_id, $_name, $_category, $_image, $_available_quantity, $_price_dollars) {
+    function __construct($_id, $_name, $_category, $_image, $_available_quantity, $_price_dollars, $_shipment_options) {
         Product::$count++;
         $this->set_id($_id);
         $this->set_name($_name);
@@ -22,6 +25,8 @@ class Product {
         $this->set_image($_image);
         $this->set_available_quantity($_available_quantity);
         $this->set_price_dollars($_price_dollars);
+        $this->set_shipment_options($_shipment_options);
+        Product::$instances_array[] = $this;
     }
 
     /* GETTERS AND SETTERS */
@@ -74,6 +79,16 @@ class Product {
         return $this->price_dollars;
     }
 
+    function set_shipment_options($new_value){
+        foreach($new_value as $option){
+            $this->shipment_options[] = $option;
+        }
+    }
+
+    function get_shipment_options(){
+        return $this->shipment_options;
+    }
+
     function set_average_rating($new_value){
         $this->average_rating = $new_value;
     }
@@ -103,5 +118,18 @@ class Product {
 
     function get_price_formatted(){
         return;
+    }
+
+    static function get_product_instances(){
+        return Product::$instances_array;
+    }
+
+    static function get_product_by_id($id){
+        foreach(Product::$instances_array as $product){
+            if($product->id === $id){
+                return $product;
+            }
+        }
+        return null;
     }
 }

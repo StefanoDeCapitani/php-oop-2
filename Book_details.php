@@ -8,19 +8,17 @@ class Book_details extends Product_details {
     protected $languages;
     protected $authors;
     protected $genres;
+    protected $publisher;
     protected $ISBN;
 
-    function __construct($_pages, $_authors, $_languages, $_genres, $_ISBN) {
-        $this->set_pages($_pages);
-        $this->set_authors($_authors);
-        $this->set_languages($_languages);
-        $this->set_genres($_genres);
-        $this->set_ISBN($_ISBN);
-    }
-
-    function set_general_product_details($_short_description, $_long_description, $_dimensions, $_weight){
-        parent::__construct($_short_description, $_long_description, $_dimensions, $_weight);
-        
+    function __construct($_details) {
+        parent::__construct($_details["short_description"], $_details["long_description"], $_details["dimensions_cm"], $_details["weight_kg"]);
+        $this->set_pages($_details["pages"]);
+        $this->set_authors($_details["authors"]);
+        $this->set_languages($_details["languages"]);
+        $this->set_genres($_details["genres"]);
+        $this->set_publisher($_details["publisher"]);
+        $this->set_ISBN($_details["ISBN"]);
     }
 
     function set_pages($new_value){
@@ -61,6 +59,14 @@ class Book_details extends Product_details {
 
     function get_genres(){
         return $this->genres;
+    }
+
+    function set_publisher($new_value){
+        $this->publisher = $new_value;
+    }
+
+    function get_publisher(){
+        return $this->publisher;
     }
     
 }

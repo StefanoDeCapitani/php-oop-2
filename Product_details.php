@@ -3,15 +3,14 @@
 class Product_details {
     protected $short_description;
     protected $long_description;
-    protected $dimensions;
-    protected $weight;
-    protected $shipment_options = [];
+    protected $dimensions_cm;
+    protected $weight_kg;
 
-    function __construct($_short_description, $_long_description, $_dimensions, $_weight){
+    function __construct($_short_description, $_long_description, $_dimensions_cm, $_weight_kg){
         $this->set_short_description($_short_description);
         $this->set_long_description($_long_description);
-        $this->set_dimensions($_dimensions);
-        $this->set_weight($_weight);
+        $this->set_dimensions_cm($_dimensions_cm);
+        $this->set_weight_kg($_weight_kg);
     }
 
     function set_short_description($new_value){
@@ -30,20 +29,20 @@ class Product_details {
         return $this->long_description;
     }
 
-    function set_dimensions($new_value){
-        $this->dimensions = $new_value;
+    function set_dimensions_cm($new_value){
+        $this->dimensions_cm = $new_value;
     }
 
-    function get_dimensions(){
-        return $this->dimensions;
+    function get_dimensions_cm(){
+        return $this->dimensions_cm;
     }
 
-    function set_weight($new_value){
-        $this->weight = $new_value;
+    function set_weight_kg($new_value){
+        $this->weight_kg = $new_value;
     }
 
-    function get_weight(){
-        return $this->weight;
+    function get_weight_kg(){
+        return $this->weight_kg;
     }
 
     function add_shipment_options($new_value){

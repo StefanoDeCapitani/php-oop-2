@@ -1,9 +1,9 @@
 <?php
 
 require_once __DIR__ . "/Product.php";
-require_once __DIR__ . "/Book_details.php";
+require_once __DIR__ . "/Movie_details.php";
 
-class Book extends Product{
+class Movie extends Product{
     protected $details;
 
     function __construct($_id, $_name, $_category, $_image, $_available_quantity, $_price_dollars, $_shipment_options){
@@ -11,7 +11,7 @@ class Book extends Product{
     }
 
     function set_details($_details){
-        $this->details = new Book_details($_details);
+        $this->details = new Movie_details($_details);
     }
 
     function get_details(){
