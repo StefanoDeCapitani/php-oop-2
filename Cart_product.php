@@ -6,12 +6,13 @@ class Cart_product{
     protected $product;
     protected $quantity;
 
-    function __construct($_product, $_quantity){
-        $this->set_product($_product);
+    function __construct($_product_id, $_quantity){
+        $product = Product::get_product_by_id($_product_id);
+        $this->set_product($product);
         $this->set_quantity($_quantity);
     }
 
-    function set_product($new_value){
+    function set_product(&$new_value){
         $this->product = $new_value;
     }
 
@@ -21,6 +22,7 @@ class Cart_product{
 
     function set_quantity($new_value){
         $this->quantity = $new_value;
+
     }
 
     function get_quantity(){

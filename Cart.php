@@ -7,19 +7,16 @@ class Cart {
     protected $cart_products = [];
     protected $total_price_dollars;
 
+    function add_cart_product($_product_id, $_quantity){
+        $this->cart_products[] = new Cart_product($_product_id, $_quantity);
+    }
+
     function get_cart_product(){
         return $this->cart_products;
     }
 
     function get_total_price_dollars(){
         return $this->total_price_dollars;
-    }
-
-    function add_product_to_cart($_product_id, $_quantity){
-        $product = Product::get_product_by_id($_product_id);
-        $product->set_available_quantity($product->get_available_quantity() - $_quantity);
-        $this->cart_products[] = new Cart_product($product, $_quantity);
-        $this->update_total_price_dollars();
     }
 
     function update_total_price_dollars(){

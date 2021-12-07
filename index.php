@@ -2,7 +2,8 @@
 
 require_once "./Product_factory.php";
 require_once "./Product.php";
-require_once "./Cart.php";
+require_once "./User.php";
+
 
 $product_array = [
     [
@@ -68,20 +69,66 @@ $product_array = [
 
 $review = ["product_id" => 0, "rating" => 3, "review" => "Mi è piaciuto molto", "images" => ""];
 
+$users = [
+    [
+        "first_name" => "Aldo",
+        "last_name" => "Baglio",
+        "profile_image" => "https://biografieonline.it/img/bio/a/Aldo_Baglio.jpg",
+        "birth_day" => "09/28/1958",
+        "email" => "aldo@baglio.com",
+        "password" => "Cadrega",
+        "phone_number" => "0241 556798",
+        "payment_methods" => [
+            [
+                "payment_processing_network" => "mastercard",
+                "card_number" => "0000 1085 9843 1086",
+                "expiring_date" => "02/2023",
+                "CVV" => "965"
+            ],
+            [
+                "payment_processing_network" => "paypal",
+                "email" => "aldo@baglio.com",
+                "account_verification_status" => "verified",
+                "payer_ID" => "001253425"
+            ]
+        ],
+        "address" => [
+            "street" => "via Washington, 37",
+            "city" => "Pizzo Calabro",
+            "state" => "Calabria",
+            "postal_code" => "32920",
+            "country" => "IT"
+        ],
+    ]
+];
+
 foreach($product_array as $product){
     Product_factory::create_product($product);
 }
 
 Product::get_product_by_id($review["product_id"])->add_new_review($review["rating"], $review["review"], $review["images"]);
 
-$cart = new Cart();
+foreach($users as $user){
+    $new_user = new User($user["email"], $user["password"]);
+    $new_user->set_person_profile($user["first_name"], $user["last_name"], $user["profile_image"], $user["birth_day"]);
+    echo "Età: " . $new_user->get_age() . " anni";
+
+    $new_user->set_phone_number($user["phone_number"]);
+    $new_user->set_address($user["address"]["street"], $user["address"]["city"], $user["address"]["state"], $user["address"]["postal_code"], $user["address"]["country"]);
+
+
+    foreach($user["payment_methods"] as $payment_method){
+        $new_user->add_payment_method($payment_method);
+    }
+
+    var_dump($new_user->get_payment_methods());
+
+    $new_user->add_product_to_cart(1, 2);
+    $new_user->add_product_to_cart(0, 2);
+
+    var_dump($new_user->get_cart()->get_cart_product());
+}
+
+var_dump(User::$instances_array);
 
 var_dump(Product::get_product_instances());
-
-$cart->add_product_to_cart(1, 2);
-
-var_dump($cart);
-
-var_dump(Product::get_product_instances()[1]);
-
-echo $cart->get_total_price_dollars();
