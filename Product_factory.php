@@ -28,6 +28,5 @@ class Product_factory {
                         $product["shipment_options"]
                     );
         }
-        Product::get_product_by_id($product["id"])->set_details($product["details"]);
     }
 }

@@ -3,132 +3,78 @@
 require_once "./Product_factory.php";
 require_once "./Product.php";
 require_once "./User.php";
-
-
-$product_array = [
-    [
-    "id" => 0,
-    "name" => "Il libro della giungla",
-    "category" => "book",
-    "image" => "https://images-na.ssl-images-amazon.com/images/I/71Vthi1AUXL.jpg",
-    "available_quantity" => 2,
-    "price_dollars" => 7.39,
-    "shipment_options" => [
-                            [
-                            "country" => "US",
-                            "price_dollars" => 0,
-                            "delivery_time_days" => 5
-                            ]
-                        ],
-    "details" => [
-                    "pages" => 115,
-                    "authors" => "Ryan Reinolds",
-                    "languages" => "english",
-                    "genres" => "giallo",
-                    "publisher" => "Mondadori",
-                    "ISBN" => "978-88-89637-15-9",
-                    "short_description" => "Un libro bellissimo scritto da un attore famoso",
-                    "long_description" => "Bellissimo questo libro creato da un autore fantastico che ha stregato tutta l'opinione pubblica con le sue descrizioni dettagliate e sognanti allo stesso tempo. Assolutamente da leggere. Un bel regalo per Natale o compleanni. I tuoi amici lo ameranno.",
-                    "dimensions_cm" => [15, 7, 2],
-                    "weight_kg" => 0.3,
-                ],
-    ], 
-    [
-        "id" => 1,
-        "name" => "Spider Man",
-        "category" => "movie",
-        "image" => "https://image.api.playstation.com/vulcan/img/rnd/202011/0714/vuF88yWPSnDfmFJVTyNJpVwW.png",
-        "available_quantity" => 4,
-        "price_dollars" => 9.99,
-        "shipment_options" => [
-                                [
-                                "country" => "US",
-                                "price_dollars" => 0,
-                                "delivery_time_days" => 3
-                                ],
-                                [
-                                "country" => "UK",
-                                "price_dollars" => 10.29,
-                                "delivery_time_days" => 3
-                                ]
-                            ],
-        "details" => [
-                        "file_format" => "DVD",
-                        "director" => "Sam Raimi",
-                        "production_company" => "SONY",
-                        "genres" => "cine-comic",
-                        "playing_time_m" => 90,
-                        "ISBN" => "576-99-34598-22-7",
-                        "short_description" => "Il supereroe che si arrampica sui palazzi con le ragantele.",
-                        "long_description" => "Peter Parker si ritrova suo malgrado ad affrontare il senso di colpa per la morte dello zio e ad accettare le nuove responsabilità che i suoi poteri da supereroe gli hanno conferito.",
-                        "dimensions_cm" => [15, 7, 2],
-                        "weight_kg" => 0.2,
-                    ],
-    ]
-];
-
-$review = ["product_id" => 0, "rating" => 3, "review" => "Mi è piaciuto molto", "images" => ""];
-
-$users = [
-    [
-        "first_name" => "Aldo",
-        "last_name" => "Baglio",
-        "profile_image" => "https://biografieonline.it/img/bio/a/Aldo_Baglio.jpg",
-        "birth_day" => "09/28/1958",
-        "email" => "aldo@baglio.com",
-        "password" => "Cadrega",
-        "phone_number" => "0241 556798",
-        "payment_methods" => [
-            [
-                "payment_processing_network" => "mastercard",
-                "card_number" => "0000 1085 9843 1086",
-                "expiring_date" => "02/2023",
-                "CVV" => "965"
-            ],
-            [
-                "payment_processing_network" => "paypal",
-                "email" => "aldo@baglio.com",
-                "account_verification_status" => "verified",
-                "payer_ID" => "001253425"
-            ]
-        ],
-        "address" => [
-            "street" => "via Washington, 37",
-            "city" => "Pizzo Calabro",
-            "state" => "Calabria",
-            "postal_code" => "32920",
-            "country" => "IT"
-        ],
-    ]
-];
+require_once "./data/data.php";
 
 foreach($product_array as $product){
+    //Create product
     Product_factory::create_product($product);
+    //Set product details
+    Product::get_product_by_id($product["id"])->set_details($product["details"]);
 }
 
-Product::get_product_by_id($review["product_id"])->add_new_review($review["rating"], $review["review"], $review["images"]);
+//Adding a review
+foreach($reviews as $review){
+    Product::get_product_by_id($review["product_id"])->add_new_review($review["rating"], $review["review"], $review["images"]);
+}
 
 foreach($users as $user){
-    $new_user = new User($user["email"], $user["password"]);
+    //Sign up
+    $new_user = new User($user["user_ID"], $user["email"], $user["password"]);
     $new_user->set_person_profile($user["first_name"], $user["last_name"], $user["profile_image"], $user["birth_day"]);
-    echo "Età: " . $new_user->get_age() . " anni";
-
+    //Adding phone and address info
     $new_user->set_phone_number($user["phone_number"]);
     $new_user->set_address($user["address"]["street"], $user["address"]["city"], $user["address"]["state"], $user["address"]["postal_code"], $user["address"]["country"]);
-
-
+    //Adding payment methods
     foreach($user["payment_methods"] as $payment_method){
         $new_user->add_payment_method($payment_method);
     }
-
-    var_dump($new_user->get_payment_methods());
-
-    $new_user->add_product_to_cart(1, 2);
-    $new_user->add_product_to_cart(0, 2);
-
-    var_dump($new_user->get_cart()->get_cart_product());
 }
+?>
 
-var_dump(User::$instances_array);
-
-var_dump(Product::get_product_instances());
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Commerce</title>
+</head>
+<body>
+    <?php 
+    echo "<h1>Prodotti</h1>";
+    echo "<h2>Prodotto 0:</h2>";
+    var_dump(Product::get_product_by_id(0));
+    echo "<h2>Prodotto 1:</h2>";
+    var_dump(Product::get_product_by_id(1));
+    ?>
+    <br>
+    <br>
+    <?php
+    echo "<h1>Users</h1>";
+    $user = User::get_user_by_id(0);
+    echo "<h2>User 0:</h2>";
+    var_dump($user);
+    echo "<h4>Calcolo dell'età dell'user " . $user->get_first_name() . " " . $user->get_last_name() . " è di ". $user->get_age() . " anni.</h4>";
+    ?>
+    <?php
+    echo "<h3>Carrello dell'user:</h3>";
+    $user->add_product_to_cart(1, 2);
+    $user->add_product_to_cart(0, 2);
+    var_dump($user->get_cart()->get_cart_product());
+    echo "<h3>Prezzo totale del carrello: " . $user->get_cart()->get_total_price_dollars() . "$</h3>";
+    ?>
+    <?php
+    $user_b = User::get_user_by_id(1);
+    echo "<h2>User 1:</h2>";
+    var_dump($user_b);
+    echo "<h4>Calcolo dell'età dell'user " . $user_b->get_first_name() . " " . $user_b->get_last_name() . " è di ". $user_b->get_age() . " anni.</h4>";
+    ?>
+    <?php
+    echo "<h3>Carrello dell'user:</h3>";
+    $user_b->add_product_to_cart(1, 1);
+    $user_b->add_product_to_cart(0, 1);
+    var_dump($user_b->get_cart()->get_cart_product());
+    echo "<h3>Prezzo totale del carrello: " . $user_b->get_cart()->get_total_price_dollars() . "$</h3>";
+    ?>
+</body>
+</html>

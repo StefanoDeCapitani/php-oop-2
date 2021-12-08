@@ -15,7 +15,7 @@ class Product {
     protected $reviews;
 
     static $count;
-    static $instances_array;
+    static protected $instances_array;
     
 
     function __construct($_id, $_name, $_category, $_image, $_available_quantity, $_price_dollars, $_shipment_options) {

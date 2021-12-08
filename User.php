@@ -6,19 +6,30 @@ require_once __DIR__ . "/Cart.php";
 require_once __DIR__ . "/Payment_method_factory.php";
 
 class User extends Person{
+    protected $user_ID;
     protected $email;
     protected $password;
     protected $phone_number;
     protected $payment_methods;
     protected $address;
     protected $cart;
+    static $count;
     static public $instances_array = [];
 
-    public function __construct($_email, $_password){
+    public function __construct($_user_ID, $_email, $_password){
+        $this->set_user_ID($_user_ID);
         $this->set_email($_email);
         $this->set_password($_password);
         $this->cart = new Cart();
         User::$instances_array[] = $this;
+    }
+
+    function set_user_ID($new_value){
+        $this->user_ID = $new_value;
+    }
+
+    function get_user_ID(){
+        return $this->user_ID;
     }
 
     function set_email($new_value){
@@ -68,6 +79,15 @@ class User extends Person{
 
     function get_cart(){
         return $this->cart;
+    }
+
+    static function get_user_by_ID($_ID){
+        foreach(User::$instances_array as $user){
+            if($user->user_ID === $_ID){
+                return $user;
+            }
+        }
+        return null;
     }
 }
 

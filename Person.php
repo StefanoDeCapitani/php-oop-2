@@ -17,8 +17,16 @@ class Person {
         $this->first_name = $new_value;
     }
 
+    function get_first_name(){
+        return $this->first_name;
+    }
+
     function set_last_name($new_value){
         $this->last_name = $new_value;
+    }
+
+    function get_last_name(){
+        return $this->last_name;
     }
 
     function set_profile_image($new_value){
