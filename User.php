@@ -77,6 +77,11 @@ class User extends Person{
         $this->cart->update_total_price_dollars();
     }
 
+    function remove_product_from_cart($_product_id){
+        $this->cart->remove_cart_product($_product_id);
+        $this->cart->update_total_price_dollars();
+    }
+
     function get_cart(){
         return $this->cart;
     }

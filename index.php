@@ -60,7 +60,7 @@ foreach($users as $user){
     echo "<h3>Carrello dell'user:</h3>";
     $user->add_product_to_cart(1, 2);
     $user->add_product_to_cart(0, 2);
-    var_dump($user->get_cart()->get_cart_product());
+    var_dump($user->get_cart()->get_cart_products());
     echo "<h3>Prezzo totale del carrello: " . $user->get_cart()->get_total_price_dollars() . "$</h3>";
     ?>
     <?php
@@ -71,10 +71,20 @@ foreach($users as $user){
     ?>
     <?php
     echo "<h3>Carrello dell'user:</h3>";
+    $user_b->add_product_to_cart(0, 2);
     $user_b->add_product_to_cart(1, 1);
-    $user_b->add_product_to_cart(0, 1);
-    var_dump($user_b->get_cart()->get_cart_product());
+    var_dump($user_b->get_cart()->get_cart_products());
     echo "<h3>Prezzo totale del carrello: " . $user_b->get_cart()->get_total_price_dollars() . "$</h3>";
+    ?>
+    <?php
+    echo "<h4>Rimozione prodotto 1 dal carrello dell'user 1</h4>";
+    $user_b->remove_product_from_cart(1);
+    var_dump($user_b->get_cart()->get_cart_products());
+    ?>
+    <?php
+    echo "<h4>Diminuzione quantità prodotto 0 nel carrello dell'user 1</h4>";
+    $user_b->get_cart()->set_cart_product_quantity(0, 1);
+    var_dump($user_b->get_cart()->get_cart_products());
     ?>
 </body>
 </html>

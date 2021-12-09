@@ -1,8 +1,10 @@
 <?php
 
 require_once __DIR__ . "/Product.php";
-
+require_once __DIR__ . "/Warranty.php";
 class Cart_product{
+    
+    use Warranty;
     protected $product;
     protected $quantity;
 
