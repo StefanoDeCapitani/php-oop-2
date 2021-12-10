@@ -34,13 +34,16 @@ class Product {
     /* GETTERS AND SETTERS */
 
     function set_id($new_value){
-        $ids_array = array_map([$this, "get_ids_array"], Product::$instances_array);
-        if (in_array($new_value, $ids_array)){
-            throw new Exception("ID prodotto già presente. Si prega di evitare duplicati.");
-        } else {
+        if(!Product::$instances_array){
             $this->id = $new_value;
+        } else {
+            $ids_array = array_map([$this, "get_ids_array"], Product::$instances_array);
+            if (in_array($new_value, $ids_array)){
+                throw new Exception("ID prodotto già presente. Si prega di evitare duplicati.");
+            } else {
+                $this->id = $new_value;
+            }
         }
-        
     }
 
     function get_ids_array($product){
@@ -137,11 +140,15 @@ class Product {
     }
 
     static function get_product_by_id($id){
-        foreach(Product::$instances_array as $product){
-            if($product->id === $id){
-                return $product;
+        try{
+            foreach(Product::$instances_array as $product){
+                if($product->id === $id){
+                    return $product;
+                }
             }
+            throw new Exception("Product ID " . $id . " non esistente.");
+        } catch (Exception $e){
+            echo $e->getMessage();
         }
-        return null;
     }
 }

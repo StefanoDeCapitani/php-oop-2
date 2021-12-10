@@ -54,7 +54,7 @@ foreach($users as $user){
     $user = User::get_user_by_id(0);
     echo "<h2>User 0:</h2>";
     var_dump($user);
-    echo "<h4>Calcolo dell'età dell'user " . $user->get_first_name() . " " . $user->get_last_name() . " è di ". $user->get_age() . " anni.</h4>";
+    echo "<h4>Calcolo dell'età dell'user " . $user->get_full_name() . " è di ". $user->get_age() . " anni.</h4>";
     ?>
     <?php
     echo "<h3>Carrello dell'user:</h3>";
@@ -67,7 +67,7 @@ foreach($users as $user){
     $user_b = User::get_user_by_id(1);
     echo "<h2>User 1:</h2>";
     var_dump($user_b);
-    echo "<h4>Calcolo dell'età dell'user " . $user_b->get_first_name() . " " . $user_b->get_last_name() . " è di ". $user_b->get_age() . " anni.</h4>";
+    echo "<h4>Calcolo dell'età dell'user " . $user_b->get_full_name() . " è di ". $user_b->get_age() . " anni.</h4>";
     ?>
     <?php
     echo "<h3>Carrello dell'user:</h3>";
@@ -93,8 +93,12 @@ foreach($users as $user){
     ?>
     <?php
     echo "<h1>Eccezioni</h1>";
-    echo "<h4>Product factory lancia una eccezione se il prodotto che si cerca di creare è già stato inserito.</h4>";
+    echo "<h4>Product factory cattura e mostra una eccezione se il prodotto che si cerca di creare è già stato inserito.</h4>";
     Product_factory::create_product($product_array[0]);
+    ?>
+    <?php
+    echo "<h4>Product cattura e mostra una eccezione se il prodotto a cui si vuole accedere tramite ID non è presente</h4>";
+    Product::get_product_by_id(5);
     ?>
 </body>
 </html>

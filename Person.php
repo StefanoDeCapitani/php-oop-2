@@ -41,6 +41,10 @@ class Person {
         $this->birth_day = date_create($new_value);
     }
 
+    function get_full_name(){
+        return $this->get_first_name() . " " . $this->get_last_name();
+    }
+
     function get_age(){
         $today = date_create(date("m/d/Y"));
         $interval = date_diff($today, $this->birth_day);
