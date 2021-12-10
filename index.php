@@ -86,5 +86,15 @@ foreach($users as $user){
     $user_b->get_cart()->set_cart_product_quantity(0, 1);
     var_dump($user_b->get_cart()->get_cart_products());
     ?>
+    <?php 
+    echo "<h4>Aggiunta del trait warranty al prodotto 0</h4>";
+    $user_b->get_cart()->set_cart_product_warranty(0, $warranties[0]);
+    var_dump($user_b->get_cart()->get_cart_product_by_id(0));
+    ?>
+    <?php
+    echo "<h1>Eccezioni</h1>";
+    echo "<h4>Product factory lancia una eccezione se il prodotto che si cerca di creare è già stato inserito.</h4>";
+    Product_factory::create_product($product_array[0]);
+    ?>
 </body>
 </html>

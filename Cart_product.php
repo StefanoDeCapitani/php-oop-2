@@ -3,7 +3,7 @@
 require_once __DIR__ . "/Product.php";
 require_once __DIR__ . "/Warranty.php";
 class Cart_product{
-    
+
     use Warranty;
     protected $product;
     protected $quantity;
@@ -33,5 +33,11 @@ class Cart_product{
 
     function get_price_dollars(){
         return $this->get_product()->get_price_dollars() * $this->get_quantity();
+    }
+
+    function set_warranty($warranty){
+        $this->set_warranty_price_dollars($warranty["price_dollars"]);
+        $this->set_warranty_duration_months($warranty["duration_months"]);
+        $this->set_warranty_conditions($warranty["conditions"]);
     }
 }

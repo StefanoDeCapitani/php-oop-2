@@ -19,7 +19,6 @@ class Product {
     
 
     function __construct($_id, $_name, $_category, $_image, $_available_quantity, $_price_dollars, $_shipment_options) {
-        Product::$count++;
         $this->set_id($_id);
         $this->set_name($_name);
         $this->set_category($_category);
@@ -27,13 +26,25 @@ class Product {
         $this->set_available_quantity($_available_quantity);
         $this->set_price_dollars($_price_dollars);
         $this->set_shipment_options($_shipment_options);
+
+        Product::$count++;
         Product::$instances_array[] = $this;
     }
 
     /* GETTERS AND SETTERS */
 
     function set_id($new_value){
-        $this->id = $new_value;
+        $ids_array = array_map([$this, "get_ids_array"], Product::$instances_array);
+        if (in_array($new_value, $ids_array)){
+            throw new Exception("ID prodotto già presente. Si prega di evitare duplicati.");
+        } else {
+            $this->id = $new_value;
+        }
+        
+    }
+
+    function get_ids_array($product){
+        return $product->get_id();
     }
 
     function get_id(){

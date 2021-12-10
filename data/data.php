@@ -132,3 +132,11 @@ $users = [
         ],
     ]
 ];
+
+$warranties = [
+    [
+        "price_dollars" => "3.55",
+        "duration_months" => "24",
+        "conditions" => "No conditions",
+    ]
+];

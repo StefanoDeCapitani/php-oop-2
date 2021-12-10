@@ -29,11 +29,22 @@ class Cart {
     } 
 
     function set_cart_product_quantity($_product_id,  $_new_value){
+        $cart_product = $this->get_cart_product_by_id($_product_id);
+        $cart_product->set_quantity($_new_value);
+    }
+
+    function set_cart_product_warranty($_product_id, $_warranty){
+        $cart_product = $this->get_cart_product_by_id($_product_id);
+        $cart_product->set_warranty($_warranty);
+    }
+
+    function get_cart_product_by_id($_product_id){
         foreach($this->cart_products as $cart_product){
             if($cart_product->get_product()->get_id() === $_product_id){
-                $cart_product->set_quantity($_new_value);
+                return $cart_product;
             }
         }
+        return null;
     }
 
     function get_cart_products(){
